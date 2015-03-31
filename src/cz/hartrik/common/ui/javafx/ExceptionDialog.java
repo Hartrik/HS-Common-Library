@@ -16,9 +16,9 @@ import javafx.scene.layout.VBox;
  */
 public class ExceptionDialog extends Alert {
     
-    private final Exception exception;
+    private final Throwable exception;
 
-    public ExceptionDialog(Exception exception) {
+    public ExceptionDialog(Throwable exception) {
         super(AlertType.ERROR);
         this.exception = exception;
         
