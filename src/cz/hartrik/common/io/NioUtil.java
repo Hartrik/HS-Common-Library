@@ -36,7 +36,9 @@ public final class NioUtil {
     }
 
     /**
-     * Odstraní z názvu souboru koncovku.
+     * Odstraní z názvu souboru koncovku.<br/>
+     * <code>soubor.txt</code> => <code>soubor</code><br/>
+     * <code>soubor.01.txt</code> => <code>soubor.01</code>
      * 
      * @param fileName název souboru
      * @return název souboru bez koncovky

@@ -141,7 +141,7 @@ public final class BufferedImageUtil {
     }
     
     /**
-     * Vrátí obrázek s vyplňěnými průhlednými pixely.
+     * Vrátí obrázek s vyplněnými průhlednými pixely.
      * 
      * @param image obrázek
      * @param color barva pozadí

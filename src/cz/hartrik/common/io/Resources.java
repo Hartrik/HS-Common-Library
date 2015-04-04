@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import javafx.scene.image.Image;
 
 /**
- * Poskytuje statické metody pro pohodlné načítání dat z obsahu jar souboru.
+ * Poskytuje statické metody pro pohodlné načítání dat z obsahu jar.
  * 
  * @version 2015-02-07
  * @author Patrik Harag
@@ -24,6 +24,8 @@ import javafx.scene.image.Image;
 public class Resources {
     
     public static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
+    
+    public static final LazyResources lazy = new LazyResources();
     
     public static String absolutePath(String fileName, Class<?> context) {
         return new StringBuilder("/")

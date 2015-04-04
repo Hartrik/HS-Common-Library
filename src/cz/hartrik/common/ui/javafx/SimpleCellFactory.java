@@ -1,6 +1,5 @@
 package cz.hartrik.common.ui.javafx;
 
-import cz.hartrik.common.reflect.TODO;
 import java.util.function.Function;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
@@ -9,11 +8,12 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 /**
+ * Zjednodušuje tvorbu cell factory pro {@link ListView}.
+ * 
  * @version 2015-01-31
  * @author Patrik Harag
  * @param <T> typ
  */
-@TODO
 public abstract class SimpleCellFactory<T>
         implements Callback<ListView<T>, ListCell<T>> {
     
@@ -35,6 +35,14 @@ public abstract class SimpleCellFactory<T>
     
     protected abstract Node createContent(T item);
     
+    /**
+     * Tovární metoda pro jednoduchou tvorbu cell factory s použitím lambda
+     * výrazu.
+     * 
+     * @param <T> typ obsahu {@link ListView}
+     * @param function funkce vytvářející jednotlivá políčka {@link ListView}
+     * @return cell factory
+     */
     public static <T> SimpleCellFactory<T> of(
             final Function<T, ? extends Node> function) {
 

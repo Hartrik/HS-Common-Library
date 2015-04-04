@@ -8,17 +8,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 
+import static cz.hartrik.common.DateTimeUtils.TIMESTAMP_FORMATTER;
+
 /**
  * Třída pro rychlé vytváření screenshotů. Výchozí formát pro ukládání obrázků
  * je PNG, výchozí složka odpovídá <code>System.getProperty("user.dir")</code>
- * a název <code>yyyy-MM-dd HH-mm-ss</code>.
+ * a název souboru ve formátu <code>yyyy-MM-dd HH-mm-ss</code>.
  * 
- * @version 2014-03-28
+ * @version 2015-04-04
  * @author Patrik Harag
  */
 @LibraryClass
@@ -64,22 +65,6 @@ public final class QuickScreenshot {
         return saveImage(SwingFXUtils.fromFXImage(image, null), path, ext);
     }
     
-    // timestamp
-    
-    public static final DateTimeFormatter DEFAULT_FORMATTER =
-            new DateTimeFormatterBuilder()
-                .append(DateTimeFormatter.ISO_LOCAL_DATE)
-                .appendLiteral(" ")
-                .appendPattern("HH-mm-ss").toFormatter();
-    
-    public static String createTimestamp() {
-        return createTimestamp(DEFAULT_FORMATTER);
-    }
-    
-    public static String createTimestamp(DateTimeFormatter formatter) {
-        return formatter.format(ZonedDateTime.now());
-    }
-    
     // path
     
     /** Výchozí složka - většinou složka, ve které byl program spuštěn. */
@@ -87,21 +72,21 @@ public final class QuickScreenshot {
             Paths.get(System.getProperty("user.dir"));
     
     public static Path createPath() {
-        return createPath(DEFAULT_FOLDER, DEFAULT_FORMATTER, FileFormat.PNG);
+        return createPath(DEFAULT_FOLDER, TIMESTAMP_FORMATTER, FileFormat.PNG);
     }
     
     public static Path createPath(Path folder) {
-        return createPath(folder, DEFAULT_FORMATTER, FileFormat.PNG);
+        return createPath(folder, TIMESTAMP_FORMATTER, FileFormat.PNG);
     }
     
     public static Path createPath(Path folder, String ext) {
-        return createPath(folder, DEFAULT_FORMATTER, ext);
+        return createPath(folder, TIMESTAMP_FORMATTER, ext);
     }
     
     public static Path createPath(Path folder, DateTimeFormatter formatter,
             String ext) {
         
-        return folder.resolve(createTimestamp(formatter) + "." + ext);
+        return folder.resolve(formatter.format(ZonedDateTime.now()) + "." + ext);
     }
     
 }
