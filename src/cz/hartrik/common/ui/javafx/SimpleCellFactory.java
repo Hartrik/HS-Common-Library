@@ -9,15 +9,15 @@ import javafx.util.Callback;
 
 /**
  * Zjednodušuje tvorbu cell factory pro {@link ListView}.
- * 
+ *
  * @version 2015-01-31
  * @author Patrik Harag
  * @param <T> typ
  */
 public abstract class SimpleCellFactory<T>
         implements Callback<ListView<T>, ListCell<T>> {
-    
-    @Override 
+
+    @Override
     public ListCell<T> call(ListView<T> list) {
         return new ListCell<T>() {
 
@@ -32,13 +32,13 @@ public abstract class SimpleCellFactory<T>
             }
         };
     }
-    
+
     protected abstract Node createContent(T item);
-    
+
     /**
      * Tovární metoda pro jednoduchou tvorbu cell factory s použitím lambda
      * výrazu.
-     * 
+     *
      * @param <T> typ obsahu {@link ListView}
      * @param function funkce vytvářející jednotlivá políčka {@link ListView}
      * @return cell factory
