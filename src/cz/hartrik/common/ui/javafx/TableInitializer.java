@@ -11,9 +11,9 @@ import javafx.util.StringConverter;
 
 /**
  * Pomocná třída pro pohodlnější inicializaci tabulky. Podporuje pouze jednu
- * úroveň vnořených sloupců.
+ * úroveň vnořených sloupců. Data v tabulce není možné editovat.
  *
- * @version 2014-12-03
+ * @version 2015-07-31
  * @author Patrik Harag
  * @param <T> content type
  */
@@ -35,6 +35,43 @@ public class TableInitializer<T> {
             inner.getColumns().add(column);
 
         return this;
+    }
+
+    public <U> TableInitializer<T> addObjectColumn(int minWidth, int maxWidth,
+            String name, Function<T, U> convert, Function<U, String> toString) {
+
+        TableColumn<T, U> column = new TableColumn<>(name);
+        column.setMinWidth(minWidth);
+        column.setMaxWidth(maxWidth);
+
+        column.setCellFactory(TextFieldTableCell.forTableColumn(
+                new StringConverter<U>() {
+
+            @Override public String toString(U value) {
+                return toString.apply(value);
+            }
+
+            @Override public U fromString(String string) {
+                throw new UnsupportedOperationException("Not supported");
+            }
+        }));
+
+        column.setCellValueFactory(
+                (p) -> new SimpleObjectProperty<>(convert.apply(p.getValue())));
+
+        return addColumn(column);
+    }
+
+    public <U> TableInitializer<T> addObjectColumn(int width,
+            String name, Function<T, U> convert, Function<U, String> toString) {
+
+        return addObjectColumn(width, width, name, convert, toString);
+    }
+
+    public <U> TableInitializer<T> addObjectColumn(
+            String name, Function<T, U> convert, Function<U, String> toString) {
+
+        return addObjectColumn(0, Integer.MAX_VALUE, name, convert, toString);
     }
 
     // add string column
@@ -170,6 +207,12 @@ public class TableInitializer<T> {
         inner = null;
 
         return this;
+    }
+
+    // ---- STATICKÉ METODY ----
+
+    public static <T> TableInitializer<T> of(TableView<T> tableView) {
+        return new TableInitializer<>(tableView);
     }
 
 }
