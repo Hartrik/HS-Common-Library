@@ -1,6 +1,7 @@
 
 package cz.hartrik.common.ui.javafx;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +14,7 @@ import javafx.util.StringConverter;
  * Pomocná třída pro pohodlnější inicializaci tabulky. Podporuje pouze jednu
  * úroveň vnořených sloupců. Data v tabulce není možné editovat.
  *
- * @version 2015-07-31
+ * @version 2015-09-06
  * @author Patrik Harag
  * @param <T> content type
  */
@@ -201,10 +202,32 @@ public class TableInitializer<T> {
         return this;
     }
 
-    // cancel inner
-
+    /**
+     * Zruší přidávání vnořených sloupců. <p>
+     * Tuto metodu není nutné volat, pokud následuje další sloupec se
+     * vnořenými sloupci. (Je podporována pouze jedna úroveň vnořených sloupců.)
+     *
+     * @return TableInitializer
+     */
     public TableInitializer<T> cancelInner() {
         inner = null;
+
+        return this;
+    }
+
+    /**
+     * Upraví naposledy přidaný sloupec.
+     * Slouží hlavně k tomu, aby se kvůli jedné přímé úpravě nerozbila jinak
+     * přehledná tvorba tabulky.
+     *
+     * @param consumer funkce, která bude něco provádět se posledním sloupcem
+     * @throws IndexOutOfBoundsException v tabulce není žádný sloupec
+     * @return TableInitializer
+     */
+    public TableInitializer<T> init(Consumer<TableColumn<T, ?>> consumer) {
+        int lastIndex = table.getColumns().size() - 1;
+        TableColumn<T, ?> last = table.getColumns().get(lastIndex);
+        consumer.accept(last);
 
         return this;
     }
