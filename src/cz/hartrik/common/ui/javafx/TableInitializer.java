@@ -216,7 +216,7 @@ public class TableInitializer<T> {
     }
 
     /**
-     * Upraví naposledy přidaný sloupec.
+     * Upraví poslední sloupec.
      * Slouží hlavně k tomu, aby se kvůli jedné přímé úpravě nerozbila jinak
      * přehledná tvorba tabulky.
      *
@@ -225,9 +225,13 @@ public class TableInitializer<T> {
      * @return TableInitializer
      */
     public TableInitializer<T> init(Consumer<TableColumn<T, ?>> consumer) {
-        int lastIndex = table.getColumns().size() - 1;
-        TableColumn<T, ?> last = table.getColumns().get(lastIndex);
-        consumer.accept(last);
+        if (inner == null || inner.getColumns().isEmpty()) {
+            int lastIndex = table.getColumns().size() - 1;
+            consumer.accept(table.getColumns().get(lastIndex));
+        } else {
+            int lastIndex = inner.getColumns().size() - 1;
+            consumer.accept(inner.getColumns().get(lastIndex));
+        }
 
         return this;
     }
