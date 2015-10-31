@@ -1,2 +1,5 @@
 # HS-Common-Library
-A collection of useful classes. Contains comments in the Czech language.
+
+Malá knihovna, která obsahuje pár užitečných tříd.
+
+Používám ji ve většině mých projektů.
